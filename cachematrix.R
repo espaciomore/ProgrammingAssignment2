@@ -34,7 +34,13 @@ makeCacheMatrix <- function(x = matrix()) {
 
 cacheSolve <- function(x, ...) {
   ma <- x$getsolve()
-  if(is.null(ma))
+  if(is.null(ma)){
+    starttime <- Sys.time()
     x$setsolve(solve(x$get(), ...))
+    endtime <- timestamp(quiet = TRUE)
+    message(paste("Inverse computed in approximately",round(difftime(Sys.time(),starttime,units = "secs"),3), "seconds",sep=" "))
+  } else {
+    message("Inverse retrieved from cache")
+  }
   return(x$getsolve())
 }
